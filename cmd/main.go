@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/takaryo1010/rename/internal/rename"
 )
 
 func main() {
@@ -13,7 +15,7 @@ func main() {
 		p = flag.String("p", "", "Changes the specified part of a file name in the specified directory to the argument.\nUsage:'-p NewName")
 	)
 	flag.Usage = func() {
-        fmt.Fprintf(os.Stderr, "Usage: %s -p or -a [ARGUMENTS]\n", os.Args[0])
+        fmt.Fprintf(os.Stderr, "Usage: %s -p or -a [ARGUMENTS] [PATH] \n", os.Args[0])
         fmt.Fprintln(os.Stderr, "This is my command.")
         fmt.Fprintln(os.Stderr, "Options:")
         flag.PrintDefaults()
@@ -21,16 +23,18 @@ func main() {
 
 	flag.Parse()
 
+
 	if *a !="" && *p !=""{
 		fmt.Println("-a and -p cannot be used together")
 		os.Exit(0)
-	} else if flag.NArg() == 0 ||flag.NFlag()==0 {
+	} else if flag.NArg() != 1 ||flag.NFlag()==0 {
 		fmt.Println("rename: missing operand")
 		fmt.Println("Try 'rename -h' for more information")
 		os.Exit(0)
 	} else if *a !=""{
 		// func
-		os.Exit(0)
+		rename.RenameAll(flag.Arg(0),*a)
+
 	}else if *p !=""{
 		// func
 		os.Exit(0)
