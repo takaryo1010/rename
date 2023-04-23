@@ -23,9 +23,7 @@ func main() {
     }
 
 	flag.Parse()
-	if !attention(){
-		os.Exit(0)
-	}
+	
 
 	if *a !="" && *p !=""{
 		fmt.Println("-a and -p cannot be used together")
@@ -36,10 +34,16 @@ func main() {
 		os.Exit(0)
 	} else if *a !=""{
 		// func
+		if !attention(){
+			os.Exit(0)
+		}
 		rename.RenameAll(flag.Arg(0),*a)
 
 	}else if *p !=""{
 		// func
+		if !attention(){
+			os.Exit(0)
+		}
 		rename.RenamePart(flag.Arg(0),*p)
 		os.Exit(0)
 	}
