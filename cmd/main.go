@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"os"
@@ -11,7 +12,7 @@ import (
 func main() {
 
 	var (
-		a = flag.String("a", "", "Renames all files in the specified directory to the argument + number.\nUsage:'-a NewName")
+		a = flag.String("a", "", "Renames all files in the specified directory to the argument + number.\nUsage:'-a NewName ")
 		p = flag.String("p", "", "Changes the specified part of a file name in the specified directory to the argument.\nUsage:'-p FromName,ToName")
 	)
 	flag.Usage = func() {
@@ -22,7 +23,9 @@ func main() {
     }
 
 	flag.Parse()
-
+	if !attention(){
+		os.Exit(0)
+	}
 
 	if *a !="" && *p !=""{
 		fmt.Println("-a and -p cannot be used together")
@@ -44,4 +47,17 @@ func main() {
 
 
 	
+}
+
+func attention()bool{
+	fmt.Print("Danger!: It rewrites the name of the file. Once rewritten, it cannot be reverted. Please be very careful!(y or n)")
+	scanner:=bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	if scanner.Text()!="y" && scanner.Text()!="Y"{
+		return false
+	}
+	if scanner.Text()=="y" || scanner.Text()=="Y"{
+		return true
+	}
+	return false
 }
